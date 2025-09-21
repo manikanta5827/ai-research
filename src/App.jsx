@@ -75,11 +75,11 @@ function App() {
       if (response.ok) {
         const data = await response.json();
 
-        // Show toast for POST response
         if (data.message) {
           setToastMessage(data.message);
           setShowToast(true);
           setTimeout(() => setShowToast(false), 3000);
+          fetchTopics();
         }
       } else {
         setError(`Error: ${response.status} - ${response.statusText}`);
@@ -92,7 +92,15 @@ function App() {
   };
 
   const handleSubmit = () => {
-    triggerResearch(topic);
+    if (topic.trim()) {
+      triggerResearch(topic);
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSubmit();
+    }
   };
 
   return (
@@ -103,6 +111,7 @@ function App() {
           placeholder="Topic"
           value={topic}
           onChange={(e) => setTopic(e.target.value)}
+          onKeyPress={handleKeyPress}
         />
         <Button
           type="button"
@@ -144,7 +153,6 @@ function App() {
         </div>
       )}
 
-      {/* Toast Notification */}
       {showToast && (
         <Toast>
           <ToastContent>
