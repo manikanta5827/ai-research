@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Toast, ToastContent, ToastTitle, ToastDescription } from "@/components/ui/toast"
+import { Link } from "react-router-dom";
 
 function App() {
   const [topic, setTopic] = useState("");
@@ -129,25 +130,26 @@ function App() {
           <h3 className="text-xl font-semibold mb-4">Research Topics</h3>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {topics.map((topicItem, index) => (
-              <Card key={topicItem.id || index} className="cursor-pointer hover:shadow-md">
-                <CardHeader>
-                  <CardTitle className="text-lg">{topicItem.topic}</CardTitle>
-                  <CardDescription>
-                    Status: <span className={`font-medium ${topicItem.status === 'succeeded' ? 'text-green-600' : 'text-yellow-600'}`}>
-                      {topicItem.status}
-                    </span>
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2 text-sm text-gray-600">
-                    <p>Progress: {topicItem.progress}%</p>
-                    <p>Created: {new Date(topicItem.createdAt).toLocaleDateString()}</p>
-                    {topicItem.completedAt && (
-                      <p>Completed: {new Date(topicItem.completedAt).toLocaleDateString()}</p>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
+              <Link key={topicItem.id} to={`/research/${topicItem.id}`} className="block">
+                <Card className="cursor-pointer hover:shadow-md">
+                  <CardHeader>
+                    <CardTitle className="text-lg">{topicItem.topic}</CardTitle>
+                    <CardDescription>
+                      Status: <span className={`font-medium ${topicItem.status === 'succeeded' ? 'text-green-600' : 'text-yellow-600'}`}>
+                        {topicItem.status}
+                      </span>
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2 text-sm text-gray-600">
+                      <p>Progress: {topicItem.progress}%</p>
+                      <p>Created: {new Date(topicItem.createdAt).toLocaleDateString()}</p>
+                      {topicItem.completedAt && (
+                        <p>Completed: {new Date(topicItem.completedAt).toLocaleDateString()}</p>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card></Link>
             ))}
           </div>
         </div>
