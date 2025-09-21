@@ -105,8 +105,8 @@ function App() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-8 text-left">
-      <div className="flex w-full max-w-sm items-center gap-2 font-mono font-semibold">
+    <div className="max-w-4xl mx-auto p-4">
+      <div className="flex gap-2 mb-6">
         <Input
           type="text"
           placeholder="Topic"
@@ -116,9 +116,8 @@ function App() {
         />
         <Button
           type="button"
-          variant="outline"
+          className="bg-black text-white hover:bg-gray-600"
           onClick={handleSubmit}
-          className="hover:bg-green-200"
           disabled={loading}
         >
           {loading ? "Searching..." : "Search"}
@@ -126,45 +125,30 @@ function App() {
       </div>
       {error && <p className="text-red-500 mt-2">{error}</p>}
       {topics && topics.length > 0 && (
-        <div className="mt-6">
-          <h3 className="text-xl font-semibold mb-4">Research Topics</h3>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {topics.map((topicItem, index) => (
+        <div>
+          <h3 className="text-lg font-medium mb-3 ">Research Topics</h3>
+          <div className="grid gap-3 md:grid-cols-2">
+            {topics.map((topicItem) => (
               <Link key={topicItem.id} to={`/research/${topicItem.id}`} className="block">
-                <Card className="cursor-pointer hover:shadow-md">
-                  <CardHeader>
-                    <CardTitle className="text-lg">{topicItem.topic}</CardTitle>
-                    <CardDescription>
-                      Status: <span className={`font-medium ${topicItem.status === 'succeeded' ? 'text-green-600' : 'text-yellow-600'}`}>
-                        {topicItem.status}
-                      </span>
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-2 text-sm text-gray-600">
-                      <p>Progress: {topicItem.progress}%</p>
-                      <p>Created: {new Date(topicItem.createdAt).toLocaleDateString()}</p>
-                      {topicItem.completedAt && (
-                        <p>Completed: {new Date(topicItem.completedAt).toLocaleDateString()}</p>
-                      )}
-                    </div>
-                  </CardContent>
-                </Card></Link>
+                <Card className="p-4 hover:bg-gray-50">
+                  <h4 className="font-medium text-green-500">{topicItem.topic}</h4>
+                  <p className="text-sm text-gray-600 mt-1">
+                    Status: {topicItem.status} • {topicItem.progress}%
+                  </p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    {new Date(topicItem.createdAt).toLocaleDateString()}
+                  </p>
+                </Card>
+              </Link>
             ))}
           </div>
         </div>
       )}
 
       {showToast && (
-        <Toast>
-          <ToastContent>
-            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-            <div>
-              <ToastTitle>Success!</ToastTitle>
-              <ToastDescription>{toastMessage}</ToastDescription>
-            </div>
-          </ToastContent>
-        </Toast>
+        <div className="fixed top-4 right-4 bg-green-500 text-white p-3 rounded">
+          {toastMessage}
+        </div>
       )}
     </div>
   )
