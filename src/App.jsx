@@ -22,7 +22,7 @@ function App() {
     setError(null);
 
     try {
-      const response = await fetch(`${import.meta.env.BACKEND_BASE_URL}/research`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_BASE_URL}/research`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -64,7 +64,7 @@ function App() {
     setLoading(true);
 
     try {
-      const response = await fetch(`${import.meta.env.BACKEND_BASE_URL}/research`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_BASE_URL}/research`, {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',

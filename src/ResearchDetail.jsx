@@ -18,7 +18,7 @@ function ResearchDetail() {
                 const user = localStorage.getItem('user');
                 if (!user) return;
 
-                const response = await fetch(`${import.meta.env.BACKEND_BASE_URL}/research/${id}`, {
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_BASE_URL}/research/${id}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
