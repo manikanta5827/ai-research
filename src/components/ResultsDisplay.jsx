@@ -1,4 +1,3 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export function ResultsDisplay({ results }) {
     if (!results || !results.result) {
