@@ -1,12 +1,23 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## AI Research App
 
-Currently, two official plugins are available:
+### What it does
+- Lets you enter a topic and start an AI-driven research job.
+- Shows a list of your previous topics with status and progress.
+- Click a topic to view details, logs, and results.
+- Includes a Refresh button on the detail page to reload the latest state.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Tech stack
+- Vite + React
+- Shadcn UI components
 
-## Expanding the ESLint configuration
+### Getting started
+1) Install dependencies:
+   npm install
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+2) Environment:
+- Development: create a .env file with
+  VITE_BACKEND_BASE_URL=http://localhost:4000
+
+3) Run locally:
+   npm run dev
