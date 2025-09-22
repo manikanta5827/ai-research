@@ -28,8 +28,8 @@ function ResearchDetail() {
 
                 if (response.ok) {
                     const data = await response.json();
-                    if (data.topic && Array.isArray(data.topic) && data.topic.length > 0) {
-                        setTopic(data.topic[0]);
+                    if (data.topic) {
+                        setTopic(data.topic);
                     } else {
                         setError('No topic data found');
                     }
