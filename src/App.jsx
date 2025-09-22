@@ -126,7 +126,7 @@ function App() {
       {error && <p className="text-red-500 mt-2">{error}</p>}
       {topics && topics.length > 0 && (
         <div>
-          <h3 className="text-lg font-medium mb-3 ">Research Topics</h3>
+          <h3 className="text-lg font-medium mb-3 ">Previous Topics</h3>
           <div className="grid gap-3 md:grid-cols-2">
             {topics.map((topicItem) => (
               <Link key={topicItem.id} to={`/research/${topicItem.id}`} className="block">
