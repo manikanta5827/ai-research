@@ -72,12 +72,21 @@ function ResearchDetail() {
     return (
         <div className="max-w-4xl mx-auto p-4">
             <div className="mb-6">
-                <Link to="/">
-                    <Button variant="outline" className="mb-4 hover:bg-green-300">
-                        <ArrowLeft className="h-4 w-4 mr-2" />
-                        Back to Home
+                <div className="flex items-center gap-2 mb-4">
+                    <Link to="/">
+                        <Button variant="outline" className="hover:bg-green-300">
+                            <ArrowLeft className="h-4 w-4 mr-2" />
+                            Back to Home
+                        </Button>
+                    </Link>
+                    <Button
+                        variant="outline"
+                        className="hover:bg-green-300"
+                        onClick={() => window.location.reload()}
+                    >
+                        Refresh
                     </Button>
-                </Link>
+                </div>
                 <h1 className="text-2xl font-bold">{topic.topic}</h1>
             </div>
 
