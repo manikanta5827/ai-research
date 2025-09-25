@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -12,6 +12,7 @@ function App() {
   const [error, setError] = useState(null);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const inputRef = useRef(null);
 
   const fetchTopics = async () => {
     const user = localStorage.getItem('user');
@@ -44,6 +45,7 @@ function App() {
   };
 
   useEffect(() => {
+    inputRef.current.focus();
     // create a uuid for user and store it which is used to differentiate user sessions
     let user = localStorage.getItem('user');
 
@@ -142,6 +144,7 @@ function App() {
           value={topic}
           onChange={(e) => setTopic(e.target.value)}
           onKeyPress={handleKeyPress}
+          ref={inputRef}
         />
       </div>
       {error && <p className="text-red-500 mt-2">{error}</p>}
