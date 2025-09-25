@@ -149,7 +149,7 @@ function App() {
       </div>
       {error && <p className="text-red-500 mt-2">{error}</p>}
       {loading && <p className="text-gray-500 text-sm mt-2">Loading...</p>}
-      {topics && topics.length > 0 ? (
+      {topics && topics.length > 0 && (
         <div>
           <h3 className="text-lg font-medium mb-3 ">Previous Topics</h3>
           <div className="grid gap-3 md:grid-cols-1">
@@ -171,7 +171,7 @@ function App() {
             ))}
           </div>
         </div>
-      ) : (<p>No Previous Topics Found</p>)}
+      )}
 
       {showToast && (
         <div className="fixed top-4 right-4 bg-green-500 text-white p-3 rounded">
