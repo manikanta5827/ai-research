@@ -103,34 +103,60 @@ function App() {
     }
   };
 
+  const handleDelete = async (topicItem) => {
+    const user = localStorage.getItem('user');
+    if (!user || !topicItem?.id) return;
+
+    setError(null);
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_BASE_URL}/research/${topicItem.id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'user': user
+        }
+      });
+
+      if (response.ok) {
+        setTopics(prev => Array.isArray(prev) ? prev.filter(t => t.id !== topicItem.id) : prev);
+        setToastMessage('Topic deleted');
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 3000);
+      } else {
+        setError('Failed to delete topic');
+      }
+    } catch (err) {
+      setError('Network error occurred');
+      console.error('Failed to delete topic:', err);
+    }
+  }
+
   return (
     <div className="max-w-4xl mx-auto p-4">
-      <div className="flex gap-2 mb-6">
+      <h1 className="text-center text-4xl font-semibold font-mono mt-5 text-blue-500">AI Research Agent</h1>
+      <div className=" mb-6 mt-10">
         <Input
           type="text"
-          placeholder="Topic"
+          placeholder="Search for a Topic"
           value={topic}
           onChange={(e) => setTopic(e.target.value)}
           onKeyPress={handleKeyPress}
         />
-        <Button
-          type="button"
-          className="bg-black text-white hover:bg-gray-600"
-          onClick={handleSubmit}
-          disabled={loading}
-        >
-          {loading ? "Searching..." : "Search"}
-        </Button>
       </div>
       {error && <p className="text-red-500 mt-2">{error}</p>}
-      {topics && topics.length > 0 && (
+      {loading && <p className="text-gray-500 text-sm mt-2">Loading...</p>}
+      {topics && topics.length > 0 ? (
         <div>
           <h3 className="text-lg font-medium mb-3 ">Previous Topics</h3>
-          <div className="grid gap-3 md:grid-cols-2">
+          <div className="grid gap-3 md:grid-cols-1">
             {topics.map((topicItem) => (
               <Link key={topicItem.id} to={`/research/${topicItem.id}`} className="block">
                 <Card className="p-4 hover:bg-gray-50">
-                  <h4 className="font-medium text-green-500">{topicItem.topic}</h4>
+                  <div className="flex justify-between">
+                    <h4 className="font-medium text-green-500 inline-block">{topicItem.topic}</h4>
+                    <Button onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleDelete(topicItem); }} className="bg-red-400 hover:bg-red-400 hover:border-2 hover:border-red-500">Delete</Button>
+                  </div>
                   <p className="text-sm text-gray-600 mt-1">
                     Status: {topicItem.status} • {topicItem.progress}%
                   </p>
@@ -142,7 +168,7 @@ function App() {
             ))}
           </div>
         </div>
-      )}
+      ) : (<p>No Previous Topics Found</p>)}
 
       {showToast && (
         <div className="fixed top-4 right-4 bg-green-500 text-white p-3 rounded">
