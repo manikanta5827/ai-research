@@ -8,6 +8,7 @@ import { ResultsDisplay } from "@/components/ResultsDisplay";
 function ResearchDetail() {
     const { id } = useParams();
     const [topic, setTopic] = useState(null);
+    const [result, setResult] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -17,7 +18,7 @@ function ResearchDetail() {
                 const user = localStorage.getItem('user');
                 if (!user) return;
 
-                const response = await fetch(`${import.meta.env.VITE_BACKEND_BASE_URL}/research/${id}`, {
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_BASE_URL}/research/topic?topic_id=${id}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -29,6 +30,16 @@ function ResearchDetail() {
                     const data = await response.json();
                     if (data.topic) {
                         setTopic(data.topic);
+                        console.log(data.topic.progress);
+                        console.log(typeof data.topic.progress);
+                        if (data.topic.progress != 100 && data.topic.error == null) {
+                            setTimeout(() => {
+                                fetchTopic();
+                            }, 2000)
+                        }
+                        else {
+                            fetchResult(id);
+                        }
                     } else {
                         setError('No topic data found');
                     }
@@ -41,6 +52,35 @@ function ResearchDetail() {
                 setLoading(false);
             }
         };
+
+        const fetchResult = async (id) => {
+            try {
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_BASE_URL}/research/result?topic_id=${id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.status === "success") {
+                        setResult(data.result);
+                    }
+                    else {
+                        setError('No result found')
+                    }
+                }
+                else {
+                    setError("Failed to fetch result")
+                }
+            } catch (error) {
+                setError(`Network error occured ${error}`)
+            } finally {
+                setLoading(false);
+            }
+
+        }
 
         if (id) {
             fetchTopic();
@@ -79,13 +119,6 @@ function ResearchDetail() {
                             Back to Home
                         </Button>
                     </Link>
-                    <Button
-                        variant="outline"
-                        className="hover:bg-green-300"
-                        onClick={() => window.location.reload()}
-                    >
-                        Refresh
-                    </Button>
                 </div>
                 <h1 className="text-2xl font-bold">{topic.topic}</h1>
             </div>
@@ -108,7 +141,7 @@ function ResearchDetail() {
 
                 {topic.logs && <LogsDisplay logs={topic.logs} />}
 
-                {topic.results && <ResultsDisplay results={topic.results} />}
+                {result && <ResultsDisplay result={result} />}
             </div>
         </div>
     );

@@ -1,10 +1,8 @@
 
-export function ResultsDisplay({ results }) {
-    if (!results || !results.result) {
+export function ResultsDisplay({ result }) {
+    if (!result) {
         return null;
     }
-
-    const { result } = results;
 
     return (
         <div className="space-y-4">
